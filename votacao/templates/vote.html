@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Selecione seu candidato</h1>
+<p>Eleitor: {{ voter.name }} - CPF: {{ voter.cpf[:3] }}.***.***-**</p>
+
+<form method="POST" action="{{ url_for('vote') }}">
+    <input type="hidden" name="cpf" value="{{ voter.cpf }}">
+    
+    <div class="candidates">
+        <label>
+            <input type="radio" name="candidate" value="1" required>
+            Chapa A - Marcela
+        </label>
+        
+        <label>
+            <input type="radio" name="candidate" value="2">
+            Chapa B - Fábio
+        </label>
+        
+        <label>
+            <input type="radio" name="candidate" value="3">
+            Chapa C - Oswaldo
+        </label>
+    </div>
+    
+    <button type="submit">Confirmar Voto</button>
+</form>
+{% endblock %}

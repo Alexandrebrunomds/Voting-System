@@ -1,0 +1,5 @@
+flask==2.0.1
+hashlib
+sqlalchemy==1.4.23
+cryptography==35.0.0
+jsonpickle==2.0.0

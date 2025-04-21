@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Sistema de Votação Eletrônica Coordenador</h1>
+<form method="POST" action="{{ url_for('verify') }}">
+    <div class="form-group">
+        <label for="cpf">Digite seu CPF:</label>
+        <input type="text" id="cpf" name="cpf" placeholder="000.000.000-00" required>
+    </div>
+    <button type="submit">Verificar</button>
+</form>
+{% endblock %}

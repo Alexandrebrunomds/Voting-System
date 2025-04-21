@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Resultados da Votação</h1>
+
+<table>
+    <thead>
+        <tr>
+            <th>Candidato</th>
+            <th>Partido</th>
+            <th>Votos</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for candidate in candidates %}
+        <tr>
+            <td>{{ candidate.name }}</td>
+            <td>{{ candidate.party }}</td>
+            <td>{{ candidate.votes }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<a href="{{ url_for('index') }}" class="button">Voltar</a>
+{% endblock %}
