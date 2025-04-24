@@ -2,33 +2,40 @@ from .block import Block
 import time
 
 class Blockchain:
-    difficulty = 2  # Dificuldade do proof-of-work
+    difficulty = 2 # Define a dificuldade da mineração: o hash deve começar com dois zeros ('00').
 
     def __init__(self):
-        self.unconfirmed_transactions = []
-        self.chain = []
-        self.create_genesis_block()
+        # Construtor da Blockchain.
+        self.unconfirmed_transactions = [] # Lista de transações ainda não mineradas
+        self.chain = []  # A cadeia de blocos.
+        self.create_genesis_block()  # Cria o primeiro bloco da cadeia (bloco gênesis).
 
     def create_genesis_block(self):
-        genesis_block = Block(0, [], time.time(), "0")
-        genesis_block.hash = genesis_block.compute_hash()
-        self.chain.append(genesis_block)
+        # Cria o bloco gênesis manualmente, pois não há bloco anterior.
+        genesis_block = Block(0, [], time.time(), "0") # Índice 0, sem transações, com hash anterior "0".
+        genesis_block.hash = genesis_block.compute_hash()  # Calcula o hash.
+        self.chain.append(genesis_block)  # Adiciona o bloco gênesis à cadeia.
 
     def add_block(self, block, proof):
+        # Adiciona um bloco à cadeia, se o hash anterior e a prova forem válidos.
         previous_hash = self.last_block.hash
         if previous_hash != block.previous_hash:
-            return False
+            return False  # O hash anterior não corresponde.
         if not self.is_valid_proof(block, proof):
-            return False
-        block.hash = proof
-        self.chain.append(block)
+            return False  # A prova de trabalho não é válida.
+        block.hash = proof  # Define o hash do bloco como a prova de trabalho.
+        self.chain.append(block)  # Adiciona o bloco à cadeia
         return True
 
     def is_valid_proof(self, block, block_hash):
+        # Verifica se a prova de trabalho é válida:
+        # - Começa com a quantidade de zeros necessária (dificuldade).
+        # - O hash é igual ao gerado pelo bloco.
         return (block_hash.startswith('0' * Blockchain.difficulty) and 
                 block_hash == block.compute_hash())
 
     def proof_of_work(self, block):
+        # Algoritmo de mineração: encontra um nonce tal que o hash tenha os zeros à esquerda necessários
         block.nonce = 0
         computed_hash = block.compute_hash()
         while not computed_hash.startswith('0' * Blockchain.difficulty):

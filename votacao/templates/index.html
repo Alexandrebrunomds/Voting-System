@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 
 {% block content %}
-<h1>Sistema de Votação Eletrônica Coordenador</h1>
+<h1>Sistema de Votação Eletrônica</h1>
 <form method="POST" action="{{ url_for('verify') }}">
     <div class="form-group">
         <label for="cpf">Digite seu CPF:</label>
@@ -9,4 +9,8 @@
     </div>
     <button type="submit">Verificar</button>
 </form>
+
+<div style="margin-top: 30px; text-align: center;">
+    <a href="{{ url_for('results') }}" class="button">Ver Resultados</a>
+</div>
 {% endblock %}

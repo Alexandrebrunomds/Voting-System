@@ -1,10 +1,15 @@
 import hashlib
 import json
 import time
-from datetime import datetime
 
 class Block:
     def __init__(self, index, transactions, timestamp, previous_hash):
+        # Construtor do bloco. Recebe:
+        # index: posição do bloco na cadeia.
+        # transactions: lista de transações contidas no bloco.
+        # timestamp: data e hora da criação do bloco.
+        # previous_hash: hash do bloco anterior.
+        
         self.index = index
         self.transactions = transactions
         self.timestamp = timestamp

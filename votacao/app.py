@@ -7,7 +7,6 @@ from database.operations import (
     get_results,
     init_database
 )
-from database.models import Voter, Candidate
 import hashlib
 import time
 from cryptography.hazmat.primitives import hashes
@@ -45,7 +44,7 @@ def index():
 
 @app.route('/verify', methods=['POST'])
 def verify():
-    """Verifica o eleitor e redireciona para votação"""
+    """Verifica o eleitor e redireciona para votação ou cadastro"""
     try:
         cpf = request.form['cpf'].replace('.', '').replace('-', '')
         
@@ -56,14 +55,14 @@ def verify():
         voter = verify_voter(cpf)
         
         if not voter:
-            flash('CPF não cadastrado no sistema.', 'error')
+            flash('CPF não cadastrado. Por favor, complete seu cadastro.', 'info')
             return redirect(url_for('register', cpf=cpf))
         
         if voter.has_voted:
             flash('Este CPF já votou.', 'error')
             return redirect(url_for('index'))
         
-        return render_template('vote.html', voter=voter)
+        return redirect(url_for('vote', cpf=cpf))
         
     except Exception as e:
         flash(f'Erro ao verificar eleitor: {str(e)}', 'error')
@@ -81,9 +80,13 @@ def register():
                 flash('CPF inválido. Deve conter 11 dígitos.', 'error')
                 return redirect(url_for('register'))
                 
+            if not name:
+                flash('Nome é obrigatório.', 'error')
+                return redirect(url_for('register'))
+                
             if register_voter(cpf, name):
-                flash('Eleitor cadastrado com sucesso!', 'success')
-                return redirect(url_for('verify'), code=307)  # Redireciona mantendo POST
+                flash('Cadastro realizado com sucesso! Agora você pode votar.', 'success')
+                return redirect(url_for('vote', cpf=cpf))
             else:
                 flash('CPF já cadastrado no sistema.', 'error')
                 
@@ -96,32 +99,50 @@ def register():
     cpf = request.args.get('cpf', '')
     return render_template('register.html', cpf=cpf)
 
-@app.route('/vote', methods=['POST'])
+@app.route('/vote', methods=['GET', 'POST'])
 def vote():
     """Processa o voto do eleitor"""
-    try:
-        cpf = request.form['cpf']
-        candidate_id = int(request.form['candidate'])
-        
-        if record_vote(cpf, candidate_id):
-            # Registra na blockchain
-            transaction = {
-                'hashed_cpf': hashlib.sha256(cpf.encode()).hexdigest(),
-                'candidate_id': candidate_id,
-                'timestamp': time.time()
-            }
-            transaction['signature'] = sign_transaction(str(transaction)).hex()
-            blockchain.add_new_transaction(transaction)
-            blockchain.mine()
+    if request.method == 'GET':
+        cpf = request.args.get('cpf')
+        if not cpf:
+            flash('CPF não fornecido.', 'error')
+            return redirect(url_for('index'))
             
-            flash('Voto registrado com sucesso!', 'success')
-        else:
-            flash('Erro ao registrar voto. Eleitor já votou ou dados inválidos.', 'error')
+        voter = verify_voter(cpf)
+        if not voter:
+            flash('Eleitor não cadastrado.', 'error')
+            return redirect(url_for('register', cpf=cpf))
             
-    except Exception as e:
-        flash(f'Erro no processo de votação: {str(e)}', 'error')
+        if voter.has_voted:
+            flash('Este eleitor já votou.', 'error')
+            return redirect(url_for('index'))
+            
+        return render_template('vote.html', voter=voter)
     
-    return redirect(url_for('index'))
+    elif request.method == 'POST':
+        try:
+            cpf = request.form['cpf']
+            candidate_id = int(request.form['candidate'])
+            
+            if record_vote(cpf, candidate_id):
+                # Registra na blockchain
+                transaction = {
+                    'hashed_cpf': hashlib.sha256(cpf.encode()).hexdigest(),
+                    'candidate_id': candidate_id,
+                    'timestamp': time.time()
+                }
+                transaction['signature'] = sign_transaction(str(transaction)).hex()
+                blockchain.add_new_transaction(transaction)
+                blockchain.mine()
+                
+                flash('Voto registrado com sucesso!', 'success')
+            else:
+                flash('Erro ao registrar voto. Eleitor já votou ou dados inválidos.', 'error')
+                
+        except Exception as e:
+            flash(f'Erro no processo de votação: {str(e)}', 'error')
+        
+        return redirect(url_for('index'))
 
 @app.route('/results')
 def results():

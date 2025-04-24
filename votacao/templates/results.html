@@ -1,26 +1,42 @@
 {% extends "base.html" %}
 
 {% block content %}
-<h1>Resultados da Votação</h1>
+<h1>Resultado da Votação</h1>
 
-<table>
-    <thead>
-        <tr>
-            <th>Candidato</th>
-            <th>Partido</th>
-            <th>Votos</th>
-        </tr>
-    </thead>
-    <tbody>
-        {% for candidate in candidates %}
-        <tr>
-            <td>{{ candidate.name }}</td>
-            <td>{{ candidate.party }}</td>
-            <td>{{ candidate.votes }}</td>
-        </tr>
-        {% endfor %}
-    </tbody>
-</table>
+<div class="results-container">
+    <table>
+        <thead>
+            <tr>
+                <th>Chapa</th>
+                <th>Candidato</th>
+                <th>Votos</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Chapa 1</td>
+                <td>Marcela</td>
+                <td>{{ candidates[0].votes if candidates[0].name == "Marcela" else 0 }}</td>
+            </tr>
+            <tr>
+                <td>Chapa 2</td>
+                <td>Fábio</td>
+                <td>{{ candidates[1].votes if candidates[1].name == "Fábio" else 0 }}</td>
+            </tr>
+            <tr>
+                <td>Chapa 3</td>
+                <td>Oswaldo</td>
+                <td>{{ candidates[2].votes if candidates[2].name == "Oswaldo" else 0 }}</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
 
-<a href="{{ url_for('index') }}" class="button">Voltar</a>
+<div class="total-votes">
+    <strong>Total de votos:</strong> {{ candidates|sum(attribute='votes') }}
+</div>
+
+<div style="text-align: center; margin-top: 20px;">
+    <a href="{{ url_for('index') }}" class="button">Voltar</a>
+</div>
 {% endblock %}
