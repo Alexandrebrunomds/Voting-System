@@ -1,35 +1,50 @@
 {% extends "base.html" %}
 
 {% block content %}
-<h1>Selecione seu candidato</h1>
-<div class="voter-info">
-    <p><strong>Eleitor:</strong> {{ voter.name }}</p>
-    <p><strong>CPF:</strong> {{ voter.cpf[:3] }}.***.***-**</p>
-</div>
-
-<form method="POST" action="{{ url_for('vote') }}">
-    <input type="hidden" name="cpf" value="{{ voter.cpf }}">
+<div style="max-width: 600px; margin: 0 auto;">
+    <h1 style="text-align: center;"><i class="fas fa-check-circle"></i> Selecione seu candidato</h1>
     
-    <div class="candidates">
-        <label class="candidate-option">
-            <input type="radio" name="candidate" value="1" required>
-            <span class="party">Chapa A</span>
-            <span class="candidate-name">Marcela</span>
-        </label>
-        
-        <label class="candidate-option">
-            <input type="radio" name="candidate" value="2">
-            <span class="party">Chapa B</span>
-            <span class="candidate-name">Fábio</span>
-        </label>
-        
-        <label class="candidate-option">
-            <input type="radio" name="candidate" value="3">
-            <span class="party">Chapa C</span>
-            <span class="candidate-name">Oswaldo</span>
-        </label>
+    <div style="background-color: #f8f9fa; padding: 15px; border-radius: 5px; margin-bottom: 20px;">
+        <p style="margin: 0;"><strong>CPF:</strong> {{ voter.cpf[:3] }}.***.***-**</p>
     </div>
-    
-    <button type="submit" class="submit-btn">Confirmar Voto</button>
-</form>
+
+    <form method="POST" action="{{ url_for('vote') }}">
+        <input type="hidden" name="cpf" value="{{ voter.cpf }}">
+        
+        <div style="margin-bottom: 25px;">
+            <h3 style="border-bottom: 1px solid #eee; padding-bottom: 10px;">Candidatos:</h3>
+            
+            <div style="display: grid; grid-template-columns: 1fr; gap: 10px;">
+                <label style="display: flex; align-items: center; padding: 15px; border: 1px solid #ddd; 
+                       border-radius: 5px; cursor: pointer;">
+                    <input type="radio" name="candidate" value="1" required style="margin-right: 15px;">
+                    <div>
+                        <strong>Chapa 1</strong> - Marcela
+                    </div>
+                </label>
+                
+                <label style="display: flex; align-items: center; padding: 15px; border: 1px solid #ddd; 
+                       border-radius: 5px; cursor: pointer;">
+                    <input type="radio" name="candidate" value="2" style="margin-right: 15px;">
+                    <div>
+                        <strong>Chapa 2</strong> - Fábio
+                    </div>
+                </label>
+                
+                <label style="display: flex; align-items: center; padding: 15px; border: 1px solid #ddd; 
+                       border-radius: 5px; cursor: pointer;">
+                    <input type="radio" name="candidate" value="3" style="margin-right: 15px;">
+                    <div>
+                        <strong>Chapa 3</strong> - Oswaldo
+                    </div>
+                </label>
+            </div>
+        </div>
+        
+        <button type="submit" style="background-color: #27ae60; color: white; border: none; padding: 12px 25px; 
+                border-radius: 5px; cursor: pointer; font-size: 16px; width: 100%;">
+            <i class="fas fa-paper-plane"></i> Confirmar Voto
+        </button>
+    </form>
+</div>
 {% endblock %}

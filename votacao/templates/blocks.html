@@ -1,0 +1,105 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div style="max-width: 1000px; margin: 0 auto;">
+    <h1 style="text-align: center; margin-bottom: 30px;">
+        <i class="fas fa-link"></i> Blocos da Blockchain
+    </h1>
+
+    {% for block in blocks %}
+    <div style="background-color: white; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); 
+          padding: 20px; margin-bottom: 30px; border-left: 4px solid {% if block.index == 0 %}#27ae60{% else %}#4a6fa5{% endif %};">
+        
+        <h2 style="color: {% if block.index == 0 %}#27ae60{% else %}#2c3e50{% endif %}; margin-top: 0;">
+            Bloco #{{ block.index }} {% if block.index == 0 %}<small>(Genesis)</small>{% endif %}
+        </h2>
+        
+        <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 15px; margin-bottom: 20px;">
+            <div style="background-color: #f8f9fa; padding: 10px; border-radius: 5px;">
+                <strong style="color: #7f8c8d;">Hash</strong><br>
+                <span class="hash" title="{{ block.hash }}">{{ block.hash[:15] }}...{{ block.hash[-15:] }}</span>
+            </div>
+            
+            <div style="background-color: #f8f9fa; padding: 10px; border-radius: 5px;">
+                <strong style="color: #7f8c8d;">Hash Anterior</strong><br>
+                {% if block.index == 0 %}
+                    <span style="color: #95a5a6;">Nenhum</span>
+                {% else %}
+                    <span class="hash" title="{{ block.previous_hash }}">{{ block.previous_hash[:15] }}...{{ block.previous_hash[-15:] }}</span>
+                {% endif %}
+            </div>
+            
+            <div style="background-color: #f8f9fa; padding: 10px; border-radius: 5px;">
+                <strong style="color: #7f8c8d;">Nonce</strong><br>
+                {{ block.nonce }}
+            </div>
+            
+            <div style="background-color: #f8f9fa; padding: 10px; border-radius: 5px;">
+                <strong style="color: #7f8c8d;">Timestamp</strong><br>
+                {{ block.timestamp|datetimeformat }}
+            </div>
+        </div>
+        
+        <h3 style="border-bottom: 1px solid #eee; padding-bottom: 5px;">
+            Transações ({{ block.transactions|length }})
+        </h3>
+        
+        {% if block.transactions %}
+            <div style="margin-top: 15px;">
+                {% for tx in block.transactions %}
+                <div style="background-color: white; border: 1px solid #eee; border-radius: 6px; 
+                      padding: 15px; margin-bottom: 10px;">
+                    
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
+                        <span style="background-color: #4a6fa5; color: white; padding: 3px 8px; 
+                              border-radius: 3px; font-size: 0.8em; text-transform: uppercase;">
+                            {{ tx.type }}
+                        </span>
+                        <small>{{ tx.timestamp|datetimeformat }}</small>
+                    </div>
+                    
+                    <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 10px;">
+                        {% if tx.type == 'vote' %}
+                        <div>
+                            <strong style="color: #7f8c8d; font-size: 0.85em;">Candidato</strong><br>
+                            {% if tx.candidate_id == 1 %}Marcela (Chapa 1)
+                            {% elif tx.candidate_id == 2 %}Fábio (Chapa 2)
+                            {% elif tx.candidate_id == 3 %}Oswaldo (Chapa 3)
+                            {% else %}ID: {{ tx.candidate_id }}
+                            {% endif %}
+                        </div>
+                        {% endif %}
+                        
+                        {% if tx.cpf_hash %}
+                        <div>
+                            <strong style="color: #7f8c8d; font-size: 0.85em;">Hash CPF</strong><br>
+                            <span class="hash" title="{{ tx.cpf_hash }}">{{ tx.cpf_hash[:8] }}...{{ tx.cpf_hash[-8:] }}</span>
+                        </div>
+                        {% endif %}
+                        
+                        {% if tx.signature %}
+                        <div>
+                            <strong style="color: #7f8c8d; font-size: 0.85em;">Assinatura</strong><br>
+                            <span class="hash" title="{{ tx.signature }}">{{ tx.signature[:8] }}...{{ tx.signature[-8:] }}</span>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <div style="text-align: center; color: #95a5a6; padding: 20px;">
+                Nenhuma transação neste bloco
+            </div>
+        {% endif %}
+    </div>
+    {% endfor %}
+
+    <div style="text-align: center; margin-top: 40px;">
+        <a href="{{ url_for('index') }}" style="background-color: #4a6fa5; color: white; padding: 12px 25px; 
+           text-decoration: none; border-radius: 5px; display: inline-block;">
+            <i class="fas fa-arrow-left"></i> Voltar para Página Inicial
+        </a>
+    </div>
+</div>
+{% endblock %}

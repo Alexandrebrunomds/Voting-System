@@ -1,16 +1,28 @@
 {% extends "base.html" %}
 
 {% block content %}
-<h1>Sistema de Votação Eletrônica</h1>
-<form method="POST" action="{{ url_for('verify') }}">
-    <div class="form-group">
-        <label for="cpf">Digite seu CPF:</label>
-        <input type="text" id="cpf" name="cpf" placeholder="000.000.000-00" required>
-    </div>
-    <button type="submit">Verificar</button>
-</form>
+<div style="text-align: center; margin-top: 50px;">
+    <h1><i class="fas fa-vote-yea"></i> Sistema de Votação Blockchain</h1>
+    
+    <form method="POST" action="{{ url_for('verify') }}" style="max-width: 400px; margin: 30px auto;">
+        <div style="margin-bottom: 15px;">
+            <label for="cpf" style="display: block; margin-bottom: 5px;">Digite seu CPF:</label>
+            <input type="text" id="cpf" name="cpf" placeholder="000.000.000-00" required 
+                   style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 4px;">
+        </div>
+        <button type="submit" style="background-color: #4a6fa5; color: white; border: none; padding: 10px 20px; 
+                border-radius: 4px; cursor: pointer; font-size: 16px;">
+            <i class="fas fa-check"></i> Verificar
+        </button>
+    </form>
 
-<div style="margin-top: 30px; text-align: center;">
-    <a href="{{ url_for('results') }}" class="button">Ver Resultados</a>
+    <div style="margin-top: 30px;">
+        <a href="{{ url_for('results') }}" style="margin-right: 15px; color: #4a6fa5; text-decoration: none;">
+            <i class="fas fa-chart-bar"></i> Ver Resultados
+        </a>
+        <a href="{{ url_for('show_blocks') }}" style="color: #4a6fa5; text-decoration: none;">
+            <i class="fas fa-link"></i> Ver Blockchain
+        </a>
+    </div>
 </div>
 {% endblock %}
