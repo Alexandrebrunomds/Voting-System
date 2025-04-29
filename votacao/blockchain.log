@@ -1,0 +1,24 @@
+2025-04-29 15:48:26,333 - blockchain.chain - INFO - Inicializando Blockchain...
+2025-04-29 15:48:26,340 - blockchain.chain - INFO - Blockchain carregada do arquivo: 9 blocos
+2025-04-29 15:48:26,340 - blockchain.chain - INFO - Blockchain carregada com 9 blocos
+2025-04-29 15:48:26,388 - __main__ - INFO - Iniciando servidor Flask
+2025-04-29 15:48:27,664 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://20.10.96.213:5000
+2025-04-29 15:48:27,671 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-04-29 15:48:27,672 - werkzeug - INFO -  * Restarting with stat
+2025-04-29 15:48:27,958 - blockchain.chain - INFO - Inicializando Blockchain...
+2025-04-29 15:48:27,963 - blockchain.chain - INFO - Blockchain carregada do arquivo: 9 blocos
+2025-04-29 15:48:27,963 - blockchain.chain - INFO - Blockchain carregada com 9 blocos
+2025-04-29 15:48:27,978 - __main__ - INFO - Iniciando servidor Flask
+2025-04-29 15:48:27,987 - werkzeug - WARNING -  * Debugger is active!
+2025-04-29 15:48:27,998 - werkzeug - INFO -  * Debugger PIN: 738-225-409
+2025-04-29 15:48:34,900 - __main__ - INFO - Acesso à página inicial
+2025-04-29 15:48:34,911 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 15:48:34] "GET / HTTP/1.1" 200 -
+2025-04-29 15:48:37,941 - __main__ - INFO - Gerando resultados
+2025-04-29 15:48:37,945 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 15:48:37] "GET /results HTTP/1.1" 200 -
+2025-04-29 15:48:39,740 - __main__ - INFO - Acesso à página inicial
+2025-04-29 15:48:39,741 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 15:48:39] "GET / HTTP/1.1" 200 -
+2025-04-29 15:48:41,045 - __main__ - INFO - Solicitação de visualização da blockchain
+2025-04-29 15:48:41,057 - werkzeug - INFO - 127.0.0.1 - - [29/Apr/2025 15:48:41] "GET /blocks HTTP/1.1" 200 -
