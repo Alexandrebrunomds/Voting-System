@@ -8,9 +8,10 @@ from datetime import datetime  # Manipulação de datas
 from cryptography.hazmat.primitives import hashes  # Hashes para assinatura digital
 from cryptography.hazmat.primitives.asymmetric import padding, rsa  # Algoritmos assimétricos (RSA) e preenchimento para assinaturas
 
-# ------------------------------------------
+
 # CONFIGURAÇÃO DO SISTEMA DE LOGS
-# ------------------------------------------
+
+
 def setup_logging():
     log_format = '%(asctime)s - %(name)s - %(levelname)s - %(message)s'  # Define o formato do log
     formatter = logging.Formatter(log_format)
@@ -40,9 +41,12 @@ def setup_logging():
 setup_logging()
 logger = logging.getLogger(__name__)  # Criação do logger local
 
-# ------------------------------------------
+
+
+
 # CONFIGURAÇÃO DO FLASK
-# ------------------------------------------
+
+
 app = Flask(__name__)
 app.secret_key = 'sua_chave_secreta_aqui'  # Chave usada para sessões seguras
 
@@ -53,9 +57,11 @@ def datetimeformat(value, format='%d/%m/%Y %H:%M:%S'):
         return datetime.fromtimestamp(value).strftime(format)
     return value  # Retorna como está se não for timestamp
 
-# ------------------------------------------
+
+
 # INICIALIZAÇÃO DA BLOCKCHAIN E CRIPTOGRAFIA
-# ------------------------------------------
+
+
 blockchain = Blockchain()  # Instancia uma nova blockchain
 
 # Gera um par de chaves RSA para assinatura digital
@@ -76,9 +82,8 @@ def sign_transaction(data: str) -> bytes:
         hashes.SHA256()
     )
 
-# ------------------------------------------
+
 # ROTAS FLASK
-# ------------------------------------------
 
 # Página inicial
 @app.route('/')
